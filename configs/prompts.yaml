@@ -1,0 +1,443 @@
+llm:
+  model: gpt-4o
+  temperature: 0.0
+
+prompts:
+
+  ###########################################################################
+  # 1) PREMISE extraction — 필수
+  ###########################################################################
+  premise:
+    system: |
+      You are an expert legal-text extractor.
+      
+      — Scope —
+        Extract ONLY “premises”: text included solely for informational purposes and not used to determine compliance such as definitions, regulation's purposes / objectives.
+        **DO NOT** extract behavioural rules containing any of:
+          shall • must • may • should • is obliged to • is entitled to
+          has the right to • is prohibited from …
+
+        If a sentence has both a modal verb AND assigns an action/obligation
+        to an actor, treat it as normative (not a premise).
+
+      — Heuristics —
+        • Definitions recognised by “means / refers to” → keep.
+        • If in doubt → do NOT output it.
+
+      — Few-shot —
+        ▸ Example 1 ✓ 
+          LOCAL: "Article 1 GDPR. Subject-matter and objectives"
+          ⇒ category: purpose
+
+        ▸ Example 2 ✗
+          LOCAL: "Article 2 GDPR. Material scope"
+          ⇒ not a premise
+
+        ▸ Example 3 ✓
+          LOCAL: "Article 4 GDPR. Definitions"
+          ⇒ category: definition
+
+        ▸ Example 4 ✗
+          LOCAL: "Article 5 GDPR. Principles relating to processing of personal data"
+          ⇒ not a premise
+
+    user: |
+      # CONTEXT, if present, is for interpretation only; all spans refer to LOCAL.
+      LOCAL:
+      ---
+      {chunk}
+      ---
+
+      Extract every premise and classify:
+        • "definition"          (e.g. “‘data subject’ means …”)
+        • "purpose"             (e.g. “This Regulation aims to …, This regulation applies to …”)
+        • "other_premise"
+
+      Return JSON ONLY:
+      {
+        "premises": [
+          {
+            "category": "definition|purpose|other_premise",
+            "text": "...",
+            "char_span": [start, end],
+            "references": ["..."]
+          }
+        ]
+      }
+
+    user_batch: |
+      You will process multiple ITEMS. CONTEXT is interpretation-only; spans refer to LOCAL.
+
+      ### ITEM
+      NID: <node-id>
+      [optional] CONTEXT:
+      <parent lead-in text, if any>
+      TEXT:
+      <LOCAL text>
+      ---
+
+      Return STRICT JSON:
+      {
+        "results": [
+          {
+            "nid": "<node-id>",
+            "premises": [
+              {
+                "category": "definition|purpose|other_premise",
+                "text": "...",
+                "char_span": [start, end],
+                "references": ["..."]
+              }
+            ]
+          }
+        ]
+      }
+
+      $items
+
+  ###########################################################################
+  # 2) COMPLIANCE UNIT extraction — 필수
+  ###########################################################################
+  compliance_unit:
+    system: |
+      You are an expert legal-information extractor.
+      Output STRICT JSON only — no prose, no code fences.
+
+      Your task: from each LOCAL text, build one or more **compliance units (CU)**
+      with the following keys ⬇️
+
+        • subject      – actor bearing the right / duty
+        • condition    – prerequisites
+                          └ AND-linked → { "all": [ … ] }
+                          └ OR-linked  → { "any": [ … ] }
+                          └ single      → plain string
+        • constraint   – right / duty / prohibition / permission (array of strings)
+        • context      – background clause, object, or scope
+        • char_span    – optional; 0-based [start,end) on LOCAL, or null
+        • references   – optional; array of cross-reference keys (e.g. "A6(1)(a)")
+
+      ## Few-shot examples ###################################################
+
+      EXAMPLE 1
+      LOCAL:
+      ---
+      Article 20  
+      1. The data subject shall have the right to receive the personal data concerning
+      him or her, which he or she has provided to a controller, in a structured,
+      commonly used and machine-readable format and have the right to transmit those
+      data to another controller without hindrance from the controller to which the
+      personal data have been provided, **where:**  
+      (a) the processing is based on consent pursuant to point (a) of Article 6(1)
+          or point (a) of Article 9(2) **or** on a contract pursuant to
+          point (b) of Article 6(1); **and**  
+      (b) the processing is carried out by automated means.
+      ---
+      Expected JSON:
+      {
+        "compliance_units": [
+          {
+            "subject": "data subject",
+            "condition": {
+              "all": [
+                "processing is based on consent (Art. 6(1)(a) or 9(2)(a)) or contract (Art. 6(1)(b))",
+                "processing is carried out by automated means"
+              ]
+            },
+            "constraint": [
+              "has the right to receive personal data in a structured, commonly used and machine-readable format",
+              "has the right to transmit those data to another controller without hindrance"
+            ],
+            "context": "personal data have been provided to a controller",
+            "char_span": { "subject": null, "condition": null,
+                          "constraint": null, "context": null },
+            "references": ["A6(1)(a)", "A9(2)(a)", "A6(1)(b)"]
+          }
+        ]
+      }
+
+      EXAMPLE 2
+      LOCAL:
+      ---
+      Article 3  1. This Regulation applies to the processing of personal data in the context of the activities of an establishment of a controller or a processor in the Union,
+      regardless of whether the processing takes place in the Union or not.
+
+      ---
+      Expected JSON:
+      {
+        "compliance_units": [
+          {
+            "subject": "This Regulation",
+            "condition": "processing of personal data in the context of the activities of an establishment of a controller or processor in the Union",
+            "constraint": ["Regulation applies"],
+            "context": "regardless of whether the processing takes place in the Union or not",
+            "char_span": {
+              "subject": null,
+              "condition": null,
+              "constraint": null,
+              "context": null
+            },
+            "references": []
+          }
+        ]
+      }
+
+      EXAMPLE 3
+      LOCAL:
+      ---
+      Article 11  
+      1. If the purposes for which a controller processes personal data do not or
+      do no longer require the identification of a data subject by the controller,
+      **the controller shall not be obliged** to maintain, acquire or process
+      additional information in order to identify the data subject for the sole
+      purpose of complying with this Regulation.
+      ---
+      Expected JSON:
+      {
+        "compliance_units": [
+          {
+            "subject": "controller",
+            "condition": "processing purpose does not or no longer require identification of the data subject",
+            "constraint": [
+              "no obligation to maintain, acquire, or process additional information to identify the data subject"
+            ],
+            "context": "solely for complying with this Regulation (GDPR)",
+            "char_span": { "subject": null, "condition": null,
+                          "constraint": null, "context": null },
+            "references": []
+          }
+        ]
+      }
+
+      ## End of examples #####################################################
+
+    user: |
+      # CONTEXT (if present) is for interpretation only. Spans MUST refer to LOCAL.
+      LOCAL:
+      ---
+      {chunk}
+      ---
+
+      Return:
+      {
+        "compliance_units": [
+          {
+            "subject":    "...",
+            "condition":  { "all": [...] } | { "any": [...] } | "...",
+            "constraint": ["...", ...],
+            "context":    "...",
+            "char_span": {
+              "subject":    [s,e] | null,
+              "condition":  [s,e] | null,
+              "constraint": [s,e] | null,
+              "context":    [s,e] | null
+            },
+            "references": ["..."]
+          }
+        ]
+      }
+
+    user_batch: |
+      You will process multiple ITEMS. CONTEXT is interpretation-only; spans are on LOCAL.
+
+      ### ITEM
+      NID: <node-id>
+      [optional] CONTEXT:
+      <parent lead-in>
+      TEXT:
+      <LOCAL text>
+      ---
+
+      Return STRICT JSON:
+      {
+        "results": [
+          {
+            "nid": "<node-id>",
+            "compliance_units": [ … same schema as above … ]
+          }
+        ]
+      }
+
+      $items
+
+  ###########################################################################
+  # 3) ATOMIC decomposition — 선택
+  ###########################################################################
+  atomic:
+    system: >
+      You decompose a given normative triple JSON into atomic items and boolean logic groups.
+      - Split complex CONDITION into atomic conditions.
+      - Split EXCEPTION into atomic exceptions.
+      - Split EFFECT into atomic effects if needed.
+      - Build boolean groups with op in {"AND","OR"} and assign each atom to a group (e.g. "G1","G2","E1").
+      - Declare relations: group -> effect with {"type": "IMPLIES" | "EXCEPTS"}.
+      - If an exception leads to an effect that overrides a previously implied effect, emit
+        {"override": "<effect_id_override>", "over": "<effect_id_overridden>"}.
+      Preserve or set spans as [start,end) relative to LOCAL when available.
+
+      Return STRICT JSON.
+
+    user: |
+      INPUT_TRIPLE_JSON:
+      ===
+      {chunk}
+      ===
+
+      Return JSON ONLY:
+      {
+        "conditions": [{"text":"...", "char_span":[s,e], "group":"G1"}],
+        "condition_groups": [{"id":"G1","op":"AND"}],
+        "exceptions": [{"text":"...", "char_span":[s,e], "group":"E1"}],
+        "exception_groups": [{"id":"E1","op":"OR"}],
+        "effects": [{"id":"EFF_A","text":"...", "char_span":[s,e]}],
+        "relations": [
+          {"from_group":"G1","to_effect":"EFF_A","type":"IMPLIES"},
+          {"override":"EFF_B","over":"EFF_A"}
+        ]
+      }
+
+  ###########################################################################
+  # 4) Cross-reference resolution — 선택
+  ###########################################################################  
+  cu_type:
+    system: |
+      You classify each compliance_unit into exactly one TYPE. Output strict JSON lines (one object per item) with fields {"id","type"} only.
+
+      TYPES
+      - actor_cu: The clause’s controlling subject is an operational actor OR a domain entity/concept used to state operative principles/requirements/powers (e.g., "Personal data ... shall be processed lawfully", "Special categories of personal data are prohibited unless ...", "The controller/processor/recipient/supervisory authority ... shall ...").
+      - meta_cu: The controlling subject is the instrument/regulation itself ("This Regulation ..."), or Member States/Union/institutions setting legal framework, scope, delegations, or mandates to legislate.
+
+      DECISION RULES (generalize across regulations; no dictionaries, no external knowledge):
+      1) Prefer the main clause’s controlling subject in the provided text.
+      2) If the subject is "This Regulation" (or directly the instrument), or "Member States"/"the Union"/institutions acting normatively → meta_cu.
+      3) Otherwise (including when the subject is a data concept such as "Personal data", "Special categories", "genetic/biometric/health data", or any operational role like controller/processor/recipient) → actor_cu.
+      4) Be deterministic. Do not infer beyond the given text.
+
+      # Few-shot examples (from regulations-like texts):
+      # EX1 (meta_cu)
+      # TEXT: "This Regulation applies to the processing of personal data of data subjects who are in the Union ..."
+      # → {"type":"meta_cu","subject_span":"This Regulation","confidence":0.92,"rationale":"Subject is the Regulation setting scope."}
+
+      # EX2 (meta_cu)
+      # TEXT: "Member States may maintain or introduce more specific provisions ..."
+      # → {"type":"meta_cu","subject_span":"Member States","confidence":0.90,"rationale":"Subject is Member States establishing/adjusting legal framework."}
+
+      # EX3 (actor_cu)
+      # TEXT: "The controller shall be responsible for, and be able to demonstrate compliance with, paragraph 1."
+      # → {"type":"actor_cu","subject_span":"The controller","confidence":0.93,"rationale":"Obligation directed at an operational actor (controller)."}
+
+      # EX4 (actor_cu)
+      # TEXT: "A processor must delete or return personal data to the controller after the end of provision of services."
+      # → {"type":"actor_cu","subject_span":"A processor","confidence":0.92,"rationale":"Operational duty for processor."}
+
+    user: |
+      You will receive one compliance_unit at a time.
+      CU:
+      id: ${id}
+      text: |
+        ${text}
+      Return EXACTLY one JSON object as specified.
+
+    user_batch: |
+      You will receive JSON lines. For each, read its CU text (label+attrs text) and output ONE JSON object per line with fields {"id","type"}.
+      Items:
+      $items
+      ----
+      Output (JSONL only):
+
+  ###########################################################################
+  # 4) Cross-reference resolution — 선택
+  ###########################################################################
+  refresolve:
+    system: >
+      You detect and normalize cross-references in legal text. Work ONLY with the LOCAL text.
+      For internal references, produce normalized keys like "A6(1)(f)" for "Article 6(1)(f)".
+      For external references, keep a short canonical label if possible.
+      Provide 0-based [start, end) char_span relative to LOCAL. Return STRICT JSON only.
+
+    user_batch: |
+      You will process multiple ITEMS. Each ITEM has:
+      ### ITEM
+      NID: <node-id>
+      TEXT:
+      <LOCAL text>
+      ---
+
+      Find references in LOCAL. Return STRICT JSON:
+      {
+        "results": [
+          {
+            "nid": "<node-id>",
+            "refs": [
+              {"key":"A6(1)(f)","kind":"internal","char_span":[s,e]},
+              {"key":"Directive 95/46/EC","kind":"external","char_span":[s,e]}
+            ]
+          }
+        ]
+      }
+
+      $items
+
+  ###########################################################################
+  # 5) Context extraction
+  ###########################################################################
+  context_extraction:
+  system: |
+    You are an expert information extraction model that converts free text into a concise, regulation-agnostic graph.
+    Output VALID JSON ONLY. Do not include commentary. No chain-of-thought.
+    Allowed node kinds: [ACTOR, ACTION, DATA, LEGAL_BASIS, OBLIGATION, EXCEPTION, RECIPIENT,
+                         TRANSFER, CONTROL, RISK, TIME, LOCATION, NOTICE, REQUEST, BREACH,
+                         POLICY, AGREEMENT, PURPOSE, METRIC, FLAG]
+    Allowed edge types: [PERFORMS, USES, BASED_ON, SENDS_TO, TRANSFERS_TO, HAS_CONTROL,
+                         HAS_RISK, RETENTION_POLICY, REQUESTS, INCURS, ANNOUNCES,
+                         HAS_POLICY, HAS_AGREEMENT, RELATES_TO, DERIVES, EVIDENCES]
+  user: |
+    Text:
+    ---
+    {{TEXT}}
+    ---
+    Return:
+    {
+      "graph": {
+        "nodes": [{"id": "n1", "kind": "...", "label": "...", "attrs": {...}, "evidence": [[start,end], ...]}, ...],
+        "edges": [{"src": "nX", "dst": "nY", "etype": "..."}, ...],
+        "meta": {"source_id": "{{CASE_ID}}"}
+      }
+    }
+
+pf_applicability:
+  system: |
+    Determine if a Policy Fragment (PF) applies to a Context Graph (CG).
+    PF has textual "conditions" and "exceptions". Decide applicability ignoring obligations for now.
+    Output compact JSON ONLY. No chain-of-thought. Provide ≤25-word reason.
+  user: |
+    PF:
+    {{PF_JSON}}
+    CG summary:
+    {{CG_JSON}}
+    Return:
+    {"applicable": "yes|no|unknown", "matched_node_ids": ["n1", ...], "reason": "..."}
+
+pf_obligation_check:
+  system: |
+    Given an applicable PF and a CG, decide if PF obligations are satisfied or not.
+    Read CG node/edge attributes as facts. Use brief justification (≤30 words). JSON ONLY.
+  user: |
+    PF (obligations):
+    {{PF_JSON}}
+    CG evidence (subset):
+    {{EVIDENCE_JSON}}
+    Return:
+    {"obligation_status": "satisfied|unsatisfied|unclear", "confidence": 0.0-1.0, "reason": "..."}
+
+pf_rerank:
+  system: |
+    Re-rank score for how well PF matches CG (0..1).
+    Consider semantic closeness between PF.conditions and CG, discount PF.exceptions.
+    JSON only.
+  user: |
+    PF:
+    {{PF_JSON}}
+    CG:
+    {{CG_JSON}}
+    Return:
+    {"score": 0.0-1.0}
