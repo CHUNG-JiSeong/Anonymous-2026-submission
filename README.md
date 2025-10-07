@@ -1,5 +1,5 @@
 # Anonymous 2026 submission
-This repository contains the implemntation for GraphCompliance: Policy & context graphs + LLMs for automated GDPR compliance judgments.
+This repository contains the implemntation for GraphCompliance: Policy & context graphs + LLMs for automated regulatory compliance judgments.
 
 **Requirements**
 - Python ≥ 3.11
