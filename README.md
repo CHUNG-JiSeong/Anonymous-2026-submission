@@ -1,4 +1,4 @@
-# Anonymous Web Conference 2026 submission
+# Anonymous 2026 submission
 This repository contains the implemntation for GraphCompliance: Policy & context graphs + LLMs for automated GDPR compliance judgments.
 
 **Requirements**
