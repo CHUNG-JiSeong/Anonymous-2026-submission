@@ -102,37 +102,61 @@ class OpenAIClient:
         self.max_retries = max_retries
 
     def chat_json(self, system: str, user: str, temperature: float = 0.0) -> Dict[str, Any]:
-        """JSON 강제 응답."""
+        """Responses API 기반 JSON 강제 응답."""
         backoff = 1.0
         last_err: Optional[Exception] = None
+
         for _ in range(self.max_retries):
-            try:
-                resp = self.client.chat.completions.create(
-                    model=self.chat_model,
-                    messages=[{"role":"system","content":system},
-                            {"role":"user","content":user}],
-                    # temperature=0.0,
-                    # top_p=0.0,
-                    # presence_penalty=0.0,
-                    # frequency_penalty=0.0,
-                    # response_format={"type":"json_object"},
-                )
-                return json.loads(resp.choices[0].message.content)
-            except Exception as e:
-                last_err = e
-                time.sleep(backoff); backoff = min(backoff*2, 16.0)
-        raise RuntimeError(f"OpenAI chat_json 실패: {last_err}")
+            resp = self.client.responses.create(
+                model=self.chat_model,
+                # Chat-like 입력은 input에 role/message 배열로 전달
+                input=[
+                    {"role": "system", "content": system},
+                    {"role": "user", "content": user},
+                ],
+                temperature=temperature,
+                text={"format": {"type": "json_object"}},
+            )
+
+            # 가장 간단: 문자열 전체를 가져오기
+            text = getattr(resp, "output_text", None)
+            if not text:
+                # 호환성: output -> content -> text 경로로 복구
+                # (SDK 버전에 따라 필요할 수 있음)
+                # resp.output: List[Item]; 각 Item.content: List[ContentPart]
+                if getattr(resp, "output", None):
+                    parts = []
+                    for item in resp.output:
+                        if getattr(item, "content", None):
+                            for c in item.content:
+                                if getattr(c, "type", "") in ("output_text", "text", "message"):
+                                    # c.text가 존재하면 추가
+                                    t = getattr(c, "text", None)
+                                    if t:
+                                        parts.append(t)
+                    text = "".join(parts) if parts else None
+
+            if not text:
+                raise ValueError("Responses API: empty output_text")
+
+            return json.loads(text)
+
+        # raise RuntimeError(f"OpenAI chat_json 실패: {last_err}")
 
     def embed(self, texts: List[str]) -> List[List[float]]:
         backoff = 1.0
         last_err: Optional[Exception] = None
         for _ in range(self.max_retries):
             try:
-                resp = self.client.embeddings.create(model=self.embed_model, input=texts)
+                resp = self.client.embeddings.create(
+                    model=self.embed_model,
+                    input=texts,
+                )
                 return [d.embedding for d in resp.data]
             except Exception as e:
                 last_err = e
-                time.sleep(backoff); backoff = min(backoff*2, 16.0)
+                time.sleep(backoff)
+                backoff = min(backoff * 2, 16.0)
         raise RuntimeError(f"OpenAI embed 실패: {last_err}")
 
 

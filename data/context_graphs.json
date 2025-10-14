@@ -1,0 +1,1859 @@
+{
+  "context_id": "ctx_001",
+  "hash": "sha256:5b3fec76687bd4bbb32ae9255a451114c6658b404cb61051b5b0b75404d1b575",
+  "entities": [
+    {
+      "id": "e1",
+      "name": "IT operations manager",
+      "type": "actor",
+      "aliases": [],
+      "features": {
+        "hypernyms": [
+          {
+            "label": "controller",
+            "strength": "WEAK",
+            "confidence": 1.0,
+            "role": null,
+            "lexical_match": null,
+            "kind": null,
+            "source_mentions": [
+              "IT operations manager"
+            ],
+            "amr_ids": [
+              "ctx_001_m00"
+            ],
+            "supporting_fragment_ids": []
+          }
+        ]
+      },
+      "mentions": [
+        {
+          "text": "IT operations manager",
+          "span": [
+            6,
+            27
+          ]
+        }
+      ]
+    },
+    {
+      "id": "e2",
+      "name": "private hospital group",
+      "type": "actor",
+      "aliases": [],
+      "features": {
+        "hypernyms": [
+          {
+            "label": "group of undertakings",
+            "strength": "STRONG",
+            "confidence": 1.1,
+            "role": null,
+            "lexical_match": null,
+            "kind": null,
+            "source_mentions": [
+              "private hospital group"
+            ],
+            "amr_ids": [
+              "ctx_001_m01"
+            ],
+            "supporting_fragment_ids": []
+          }
+        ]
+      },
+      "mentions": [
+        {
+          "text": "private hospital group",
+          "span": [
+            33,
+            55
+          ]
+        }
+      ]
+    },
+    {
+      "id": "e3",
+      "name": "Lyon",
+      "type": "jurisdiction",
+      "aliases": [],
+      "features": {
+        "hypernyms": [
+          {
+            "label": "jurisdiction",
+            "strength": "WEAK",
+            "confidence": 1.0,
+            "role": null,
+            "lexical_match": null,
+            "kind": null,
+            "source_mentions": [
+              "Lyon"
+            ],
+            "amr_ids": [
+              "ctx_001_m02"
+            ],
+            "supporting_fragment_ids": []
+          }
+        ]
+      },
+      "mentions": [
+        {
+          "text": "Lyon",
+          "span": [
+            59,
+            63
+          ]
+        }
+      ]
+    },
+    {
+      "id": "e4",
+      "name": "EHR",
+      "type": "system",
+      "aliases": [
+        "Electronic Health Record"
+      ],
+      "features": {
+        "hypernyms": [
+          {
+            "label": "filing system",
+            "strength": "STRONG",
+            "confidence": 1.1,
+            "role": null,
+            "lexical_match": null,
+            "kind": null,
+            "source_mentions": [
+              "EHR"
+            ],
+            "amr_ids": [
+              "ctx_001_m03"
+            ],
+            "supporting_fragment_ids": []
+          }
+        ]
+      },
+      "mentions": [
+        {
+          "text": "EHR",
+          "span": [
+            80,
+            83
+          ]
+        }
+      ]
+    },
+    {
+      "id": "e5",
+      "name": "patient discharge date",
+      "type": "data_item",
+      "aliases": [],
+      "features": {
+        "hypernyms": [
+          {
+            "label": "data concerning health",
+            "strength": "STRONG",
+            "confidence": 1.1,
+            "role": null,
+            "lexical_match": null,
+            "kind": null,
+            "source_mentions": [
+              "patient discharge date"
+            ],
+            "amr_ids": [
+              "ctx_001_m04"
+            ],
+            "supporting_fragment_ids": []
+          }
+        ]
+      },
+      "mentions": [
+        {
+          "text": "patient discharge date",
+          "span": [
+            101,
+            122
+          ]
+        }
+      ]
+    },
+    {
+      "id": "e6",
+      "name": "ICD-10 diagnosis codes",
+      "type": "data_item",
+      "aliases": [],
+      "features": {
+        "hypernyms": [
+          {
+            "label": "data concerning health",
+            "strength": "STRONG",
+            "confidence": 1.1,
+            "role": null,
+            "lexical_match": null,
+            "kind": null,
+            "source_mentions": [
+              "ICD-10 diagnosis codes"
+            ],
+            "amr_ids": [
+              "ctx_001_m05"
+            ],
+            "supporting_fragment_ids": []
+          }
+        ]
+      },
+      "mentions": [
+        {
+          "text": "ICD-10 diagnosis codes",
+          "span": [
+            124,
+            146
+          ]
+        }
+      ]
+    },
+    {
+      "id": "e7",
+      "name": "lab result45 flags",
+      "type": "data_item",
+      "aliases": [],
+      "features": {
+        "hypernyms": [
+          {
+            "label": "data concerning health",
+            "strength": "WEAK",
+            "confidence": 1.0,
+            "role": null,
+            "lexical_match": null,
+            "kind": null,
+            "source_mentions": [
+              "lab result45 flags"
+            ],
+            "amr_ids": [
+              "ctx_001_m06"
+            ],
+            "supporting_fragment_ids": []
+          }
+        ]
+      },
+      "mentions": [
+        {
+          "text": "lab result45 flags",
+          "span": [
+            148,
+            166
+          ]
+        }
+      ]
+    },
+    {
+      "id": "e8",
+      "name": "year of birth",
+      "type": "data_item",
+      "aliases": [],
+      "features": {
+        "hypernyms": [
+          {
+            "label": "personal data",
+            "strength": "STRONG",
+            "confidence": 1.1,
+            "role": null,
+            "lexical_match": null,
+            "kind": null,
+            "source_mentions": [
+              "year of birth"
+            ],
+            "amr_ids": [
+              "ctx_001_m07"
+            ],
+            "supporting_fragment_ids": []
+          }
+        ]
+      },
+      "mentions": [
+        {
+          "text": "year of birth",
+          "span": [
+            186,
+            199
+          ]
+        }
+      ]
+    },
+    {
+      "id": "e9",
+      "name": "sex",
+      "type": "data_item",
+      "aliases": [],
+      "features": {
+        "hypernyms": [
+          {
+            "label": "personal data",
+            "strength": "WEAK",
+            "confidence": 1.0,
+            "role": null,
+            "lexical_match": null,
+            "kind": null,
+            "source_mentions": [
+              "sex"
+            ],
+            "amr_ids": [
+              "ctx_001_m08"
+            ],
+            "supporting_fragment_ids": []
+          }
+        ]
+      },
+      "mentions": [
+        {
+          "text": "sex",
+          "span": [
+            201,
+            204
+          ]
+        }
+      ]
+    },
+    {
+      "id": "e10",
+      "name": "5-digit postcode",
+      "type": "data_item",
+      "aliases": [],
+      "features": {
+        "hypernyms": [
+          {
+            "label": "location data",
+            "strength": "STRONG",
+            "confidence": 1.1,
+            "role": null,
+            "lexical_match": null,
+            "kind": null,
+            "source_mentions": [
+              "5-digit postcode"
+            ],
+            "amr_ids": [
+              "ctx_001_m09"
+            ],
+            "supporting_fragment_ids": []
+          }
+        ]
+      },
+      "mentions": [
+        {
+          "text": "5-digit postcode",
+          "span": [
+            210,
+            226
+          ]
+        }
+      ]
+    },
+    {
+      "id": "e11",
+      "name": "stable hashed patient ID",
+      "type": "data_item",
+      "aliases": [],
+      "features": {
+        "hypernyms": [
+          {
+            "label": "identifier",
+            "strength": "STRONG",
+            "confidence": 1.1,
+            "role": null,
+            "lexical_match": null,
+            "kind": null,
+            "source_mentions": [
+              "stable hashed patient ID"
+            ],
+            "amr_ids": [
+              "ctx_001_m10"
+            ],
+            "supporting_fragment_ids": []
+          }
+        ]
+      },
+      "mentions": [
+        {
+          "text": "stable hashed patient ID",
+          "span": [
+            234,
+            258
+          ]
+        }
+      ]
+    },
+    {
+      "id": "e12",
+      "name": "data warehouse",
+      "type": "system",
+      "aliases": [],
+      "features": {
+        "hypernyms": [
+          {
+            "label": "filing system",
+            "strength": "STRONG",
+            "confidence": 1.1,
+            "role": null,
+            "lexical_match": null,
+            "kind": null,
+            "source_mentions": [
+              "data warehouse"
+            ],
+            "amr_ids": [
+              "ctx_001_m11"
+            ],
+            "supporting_fragment_ids": []
+          },
+          {
+            "label": "third country",
+            "strength": "WEAK",
+            "confidence": 1.0,
+            "role": null,
+            "lexical_match": null,
+            "kind": null,
+            "source_mentions": [
+              "US"
+            ],
+            "amr_ids": [
+              "ctx_001_m32"
+            ],
+            "supporting_fragment_ids": []
+          }
+        ]
+      },
+      "mentions": [
+        {
+          "text": "data warehouse",
+          "span": [
+            278,
+            292
+          ]
+        }
+      ]
+    },
+    {
+      "id": "e13",
+      "name": "customer data platform",
+      "type": "system",
+      "aliases": [],
+      "features": {
+        "hypernyms": [
+          {
+            "label": "processing operation",
+            "strength": "STRONG",
+            "confidence": 1.1,
+            "role": null,
+            "lexical_match": null,
+            "kind": null,
+            "source_mentions": [
+              "customer data platform"
+            ],
+            "amr_ids": [
+              "ctx_001_m12"
+            ],
+            "supporting_fragment_ids": []
+          },
+          {
+            "label": "third country",
+            "strength": "WEAK",
+            "confidence": 1.0,
+            "role": null,
+            "lexical_match": null,
+            "kind": null,
+            "source_mentions": [
+              "US"
+            ],
+            "amr_ids": [
+              "ctx_001_m32"
+            ],
+            "supporting_fragment_ids": []
+          }
+        ]
+      },
+      "mentions": [
+        {
+          "text": "customer data platform",
+          "span": [
+            324,
+            347
+          ]
+        }
+      ]
+    },
+    {
+      "id": "e14",
+      "name": "lookalike audiences",
+      "type": "purpose",
+      "aliases": [],
+      "features": {
+        "hypernyms": [
+          {
+            "label": "profiling",
+            "strength": "STRONG",
+            "confidence": 1.1,
+            "role": null,
+            "lexical_match": null,
+            "kind": null,
+            "source_mentions": [
+              "lookalike audiences"
+            ],
+            "amr_ids": [
+              "ctx_001_m13"
+            ],
+            "supporting_fragment_ids": []
+          }
+        ]
+      },
+      "mentions": [
+        {
+          "text": "lookalike audiences",
+          "span": [
+            358,
+            377
+          ]
+        }
+      ]
+    },
+    {
+      "id": "e15",
+      "name": "retarget discharged patients",
+      "type": "purpose",
+      "aliases": [],
+      "features": {
+        "hypernyms": [
+          {
+            "label": "data subject",
+            "strength": "STRONG",
+            "confidence": 1.1,
+            "role": null,
+            "lexical_match": null,
+            "kind": null,
+            "source_mentions": [
+              "patients"
+            ],
+            "amr_ids": [
+              "ctx_001_m29"
+            ],
+            "supporting_fragment_ids": []
+          },
+          {
+            "label": "direct marketing",
+            "strength": "WEAK",
+            "confidence": 1.0,
+            "role": null,
+            "lexical_match": null,
+            "kind": null,
+            "source_mentions": [
+              "retarget discharged patients"
+            ],
+            "amr_ids": [
+              "ctx_001_m14"
+            ],
+            "supporting_fragment_ids": []
+          }
+        ]
+      },
+      "mentions": [
+        {
+          "text": "retarget discharged patients",
+          "span": [
+            382,
+            410
+          ]
+        }
+      ]
+    },
+    {
+      "id": "e16",
+      "name": "Facebook/Instagram",
+      "type": "recipient",
+      "aliases": [],
+      "features": {
+        "hypernyms": [
+          {
+            "label": "recipient",
+            "strength": "WEAK",
+            "confidence": 1.0,
+            "role": null,
+            "lexical_match": null,
+            "kind": null,
+            "source_mentions": [
+              "Facebook/Instagram"
+            ],
+            "amr_ids": [
+              "ctx_001_m15"
+            ],
+            "supporting_fragment_ids": []
+          }
+        ]
+      },
+      "mentions": [
+        {
+          "text": "Facebook/Instagram",
+          "span": [
+            414,
+            432
+          ]
+        }
+      ]
+    },
+    {
+      "id": "e17",
+      "name": "server-to-server integrations",
+      "type": "system",
+      "aliases": [],
+      "features": {
+        "hypernyms": [
+          {
+            "label": "processing operation",
+            "strength": "WEAK",
+            "confidence": 1.0,
+            "role": null,
+            "lexical_match": null,
+            "kind": null,
+            "source_mentions": [
+              "server-to-server integrations"
+            ],
+            "amr_ids": [
+              "ctx_001_m16"
+            ],
+            "supporting_fragment_ids": []
+          }
+        ]
+      },
+      "mentions": [
+        {
+          "text": "server-to-server integrations",
+          "span": [
+            437,
+            466
+          ]
+        }
+      ]
+    },
+    {
+      "id": "e18",
+      "name": "admission form",
+      "type": "system",
+      "aliases": [],
+      "features": {
+        "hypernyms": [
+          {
+            "label": "processing operation",
+            "strength": "WEAK",
+            "confidence": 1.0,
+            "role": null,
+            "lexical_match": null,
+            "kind": null,
+            "source_mentions": [
+              "admission form"
+            ],
+            "amr_ids": [
+              "ctx_001_m17"
+            ],
+            "supporting_fragment_ids": []
+          }
+        ]
+      },
+      "mentions": [
+        {
+          "text": "admission form",
+          "span": [
+            472,
+            486
+          ]
+        }
+      ]
+    },
+    {
+      "id": "e19",
+      "name": "bundled consent",
+      "type": "basis",
+      "aliases": [],
+      "features": {
+        "hypernyms": [
+          {
+            "label": "consent",
+            "strength": "STRONG",
+            "confidence": 1.1,
+            "role": null,
+            "lexical_match": null,
+            "kind": null,
+            "source_mentions": [
+              "bundled consent"
+            ],
+            "amr_ids": [
+              "ctx_001_m18"
+            ],
+            "supporting_fragment_ids": []
+          }
+        ]
+      },
+      "mentions": [
+        {
+          "text": "bundled consent",
+          "span": [
+            503,
+            518
+          ]
+        }
+      ]
+    },
+    {
+      "id": "e20",
+      "name": "service improvement and offers",
+      "type": "purpose",
+      "aliases": [],
+      "features": {
+        "hypernyms": [
+          {
+            "label": "service improvement",
+            "strength": "STRONG",
+            "confidence": 1.1,
+            "role": null,
+            "lexical_match": null,
+            "kind": null,
+            "source_mentions": [
+              "service improvement and offers"
+            ],
+            "amr_ids": [
+              "ctx_001_m19"
+            ],
+            "supporting_fragment_ids": []
+          }
+        ]
+      },
+      "mentions": [
+        {
+          "text": "service improvement and offers",
+          "span": [
+            530,
+            560
+          ]
+        }
+      ]
+    },
+    {
+      "id": "e21",
+      "name": "legitimate interests",
+      "type": "basis",
+      "aliases": [],
+      "features": {
+        "hypernyms": [
+          {
+            "label": "legitimate interests",
+            "strength": "WEAK",
+            "confidence": 1.0,
+            "role": null,
+            "lexical_match": null,
+            "kind": null,
+            "source_mentions": [
+              "legitimate interests"
+            ],
+            "amr_ids": [
+              "ctx_001_m20"
+            ],
+            "supporting_fragment_ids": []
+          }
+        ]
+      },
+      "mentions": [
+        {
+          "text": "legitimate interests",
+          "span": [
+            631,
+            651
+          ]
+        }
+      ]
+    },
+    {
+      "id": "e22",
+      "name": "US-based ad vendors",
+      "type": "recipient",
+      "aliases": [],
+      "features": {
+        "hypernyms": [
+          {
+            "label": "recipient",
+            "strength": "STRONG",
+            "confidence": 1.1,
+            "role": null,
+            "lexical_match": null,
+            "kind": null,
+            "source_mentions": [
+              "US-based ad vendors"
+            ],
+            "amr_ids": [
+              "ctx_001_m21"
+            ],
+            "supporting_fragment_ids": []
+          },
+          {
+            "label": "third country",
+            "strength": "WEAK",
+            "confidence": 1.0,
+            "role": null,
+            "lexical_match": null,
+            "kind": null,
+            "source_mentions": [
+              "US"
+            ],
+            "amr_ids": [
+              "ctx_001_m32"
+            ],
+            "supporting_fragment_ids": []
+          }
+        ]
+      },
+      "mentions": [
+        {
+          "text": "US-based ad vendors",
+          "span": [
+            678,
+            696
+          ]
+        }
+      ]
+    },
+    {
+      "id": "e23",
+      "name": "SCC/TIA package",
+      "type": "system",
+      "aliases": [],
+      "features": {
+        "hypernyms": [
+          {
+            "label": "processing operation",
+            "strength": "WEAK",
+            "confidence": 1.0,
+            "role": null,
+            "lexical_match": null,
+            "kind": null,
+            "source_mentions": [
+              "SCC/TIA package"
+            ],
+            "amr_ids": [
+              "ctx_001_m22"
+            ],
+            "supporting_fragment_ids": []
+          }
+        ]
+      },
+      "mentions": [
+        {
+          "text": "SCC/TIA package",
+          "span": [
+            734,
+            748
+          ]
+        }
+      ]
+    },
+    {
+      "id": "e24",
+      "name": "controller",
+      "type": "actor",
+      "aliases": [],
+      "features": {
+        "hypernyms": [
+          {
+            "label": "controller",
+            "strength": "STRONG",
+            "confidence": 1.1,
+            "role": null,
+            "lexical_match": null,
+            "kind": null,
+            "source_mentions": [
+              "controller"
+            ],
+            "amr_ids": [
+              "ctx_001_m23"
+            ],
+            "supporting_fragment_ids": []
+          }
+        ]
+      },
+      "mentions": [
+        {
+          "text": "controller",
+          "span": [
+            779,
+            789
+          ]
+        }
+      ]
+    },
+    {
+      "id": "e25",
+      "name": "marketing",
+      "type": "purpose",
+      "aliases": [],
+      "features": {
+        "hypernyms": [
+          {
+            "label": "direct marketing",
+            "strength": "WEAK",
+            "confidence": 1.0,
+            "role": null,
+            "lexical_match": null,
+            "kind": null,
+            "source_mentions": [
+              "marketing"
+            ],
+            "amr_ids": [
+              "ctx_001_m24"
+            ],
+            "supporting_fragment_ids": []
+          }
+        ]
+      },
+      "mentions": [
+        {
+          "text": "marketing",
+          "span": [
+            808,
+            817
+          ]
+        }
+      ]
+    },
+    {
+      "id": "e26",
+      "name": "retargeting",
+      "type": "purpose",
+      "aliases": [],
+      "features": {
+        "hypernyms": [
+          {
+            "label": "profiling",
+            "strength": "STRONG",
+            "confidence": 1.1,
+            "role": null,
+            "lexical_match": null,
+            "kind": null,
+            "source_mentions": [
+              "retargeting"
+            ],
+            "amr_ids": [
+              "ctx_001_m25"
+            ],
+            "supporting_fragment_ids": []
+          }
+        ]
+      },
+      "mentions": [
+        {
+          "text": "retargeting",
+          "span": [
+            822,
+            833
+          ]
+        }
+      ]
+    },
+    {
+      "id": "e27",
+      "name": "health-related data",
+      "type": "data_item",
+      "aliases": [],
+      "features": {
+        "hypernyms": [
+          {
+            "label": "data concerning health",
+            "strength": "STRONG",
+            "confidence": 1.1,
+            "role": null,
+            "lexical_match": null,
+            "kind": null,
+            "source_mentions": [
+              "health-related data"
+            ],
+            "amr_ids": [
+              "ctx_001_m26"
+            ],
+            "supporting_fragment_ids": []
+          }
+        ]
+      },
+      "mentions": [
+        {
+          "text": "health-related data",
+          "span": [
+            850,
+            869
+          ]
+        }
+      ]
+    },
+    {
+      "id": "e28",
+      "name": "identifiers",
+      "type": "data_item",
+      "aliases": [],
+      "features": {
+        "hypernyms": [
+          {
+            "label": "identifier",
+            "strength": "STRONG",
+            "confidence": 1.1,
+            "role": null,
+            "lexical_match": null,
+            "kind": null,
+            "source_mentions": [
+              "identifiers"
+            ],
+            "amr_ids": [
+              "ctx_001_m27"
+            ],
+            "supporting_fragment_ids": []
+          }
+        ]
+      },
+      "mentions": [
+        {
+          "text": "identifiers",
+          "span": [
+            871,
+            882
+          ]
+        }
+      ]
+    },
+    {
+      "id": "e29",
+      "name": "contact details",
+      "type": "data_item",
+      "aliases": [],
+      "features": {
+        "hypernyms": [
+          {
+            "label": "personal data",
+            "strength": "STRONG",
+            "confidence": 1.1,
+            "role": null,
+            "lexical_match": null,
+            "kind": null,
+            "source_mentions": [
+              "contact details"
+            ],
+            "amr_ids": [
+              "ctx_001_m28"
+            ],
+            "supporting_fragment_ids": []
+          }
+        ]
+      },
+      "mentions": [
+        {
+          "text": "contact details",
+          "span": [
+            887,
+            902
+          ]
+        }
+      ]
+    },
+    {
+      "id": "e30",
+      "name": "patients",
+      "type": "actor",
+      "aliases": [],
+      "features": {
+        "hypernyms": [
+          {
+            "label": "data subject",
+            "strength": "STRONG",
+            "confidence": 1.1,
+            "role": null,
+            "lexical_match": null,
+            "kind": null,
+            "source_mentions": [
+              "patients"
+            ],
+            "amr_ids": [
+              "ctx_001_m29"
+            ],
+            "supporting_fragment_ids": []
+          },
+          {
+            "label": "direct marketing",
+            "strength": "WEAK",
+            "confidence": 1.0,
+            "role": null,
+            "lexical_match": null,
+            "kind": null,
+            "source_mentions": [
+              "retarget discharged patients"
+            ],
+            "amr_ids": [
+              "ctx_001_m14"
+            ],
+            "supporting_fragment_ids": []
+          }
+        ]
+      },
+      "mentions": [
+        {
+          "text": "patients",
+          "span": [
+            933,
+            941
+          ]
+        }
+      ]
+    },
+    {
+      "id": "e31",
+      "name": "advertising vendor",
+      "type": "recipient",
+      "aliases": [],
+      "features": {
+        "hypernyms": [
+          {
+            "label": "recipient",
+            "strength": "STRONG",
+            "confidence": 1.1,
+            "role": null,
+            "lexical_match": null,
+            "kind": null,
+            "source_mentions": [
+              "advertising vendor"
+            ],
+            "amr_ids": [
+              "ctx_001_m30"
+            ],
+            "supporting_fragment_ids": []
+          }
+        ]
+      },
+      "mentions": [
+        {
+          "text": "advertising vendor",
+          "span": [
+            964,
+            982
+          ]
+        }
+      ]
+    },
+    {
+      "id": "e32",
+      "name": "social media platform",
+      "type": "recipient",
+      "aliases": [],
+      "features": {
+        "hypernyms": [
+          {
+            "label": "recipient",
+            "strength": "WEAK",
+            "confidence": 1.0,
+            "role": null,
+            "lexical_match": null,
+            "kind": null,
+            "source_mentions": [
+              "social media platform"
+            ],
+            "amr_ids": [
+              "ctx_001_m31"
+            ],
+            "supporting_fragment_ids": []
+          }
+        ]
+      },
+      "mentions": [
+        {
+          "text": "social media platform",
+          "span": [
+            987,
+            1008
+          ]
+        }
+      ]
+    },
+    {
+      "id": "e33",
+      "name": "US",
+      "type": "jurisdiction",
+      "aliases": [],
+      "features": {
+        "hypernyms": [
+          {
+            "label": "filing system",
+            "strength": "STRONG",
+            "confidence": 1.1,
+            "role": null,
+            "lexical_match": null,
+            "kind": null,
+            "source_mentions": [
+              "data warehouse"
+            ],
+            "amr_ids": [
+              "ctx_001_m11"
+            ],
+            "supporting_fragment_ids": []
+          },
+          {
+            "label": "processing operation",
+            "strength": "STRONG",
+            "confidence": 1.1,
+            "role": null,
+            "lexical_match": null,
+            "kind": null,
+            "source_mentions": [
+              "customer data platform"
+            ],
+            "amr_ids": [
+              "ctx_001_m12"
+            ],
+            "supporting_fragment_ids": []
+          },
+          {
+            "label": "recipient",
+            "strength": "STRONG",
+            "confidence": 1.1,
+            "role": null,
+            "lexical_match": null,
+            "kind": null,
+            "source_mentions": [
+              "US-based ad vendors"
+            ],
+            "amr_ids": [
+              "ctx_001_m21"
+            ],
+            "supporting_fragment_ids": []
+          },
+          {
+            "label": "third country",
+            "strength": "WEAK",
+            "confidence": 1.0,
+            "role": null,
+            "lexical_match": null,
+            "kind": null,
+            "source_mentions": [
+              "US"
+            ],
+            "amr_ids": [
+              "ctx_001_m32"
+            ],
+            "supporting_fragment_ids": []
+          }
+        ]
+      },
+      "mentions": [
+        {
+          "text": "US",
+          "span": [
+            1038,
+            1040
+          ]
+        }
+      ]
+    },
+    {
+      "id": "e34",
+      "name": "365d",
+      "type": "other",
+      "aliases": [],
+      "features": {
+        "hypernyms": [
+          {
+            "label": "retention period",
+            "strength": "WEAK",
+            "confidence": 1.0,
+            "role": null,
+            "lexical_match": null,
+            "kind": null,
+            "source_mentions": [
+              "365d"
+            ],
+            "amr_ids": [
+              "ctx_001_m33"
+            ],
+            "supporting_fragment_ids": []
+          }
+        ]
+      },
+      "mentions": [
+        {
+          "text": "365d",
+          "span": [
+            1063,
+            1067
+          ]
+        }
+      ]
+    },
+    {
+      "id": "e35",
+      "name": "hashing",
+      "type": "other",
+      "aliases": [],
+      "features": {
+        "hypernyms": [
+          {
+            "label": "security measure",
+            "strength": "WEAK",
+            "confidence": 1.0,
+            "role": null,
+            "lexical_match": null,
+            "kind": null,
+            "source_mentions": [
+              "hashing"
+            ],
+            "amr_ids": [
+              "ctx_001_m34"
+            ],
+            "supporting_fragment_ids": []
+          }
+        ]
+      },
+      "mentions": [
+        {
+          "text": "hashing",
+          "span": [
+            1095,
+            1102
+          ]
+        }
+      ]
+    },
+    {
+      "id": "e36",
+      "name": "access controls",
+      "type": "other",
+      "aliases": [],
+      "features": {
+        "hypernyms": [
+          {
+            "label": "security measure",
+            "strength": "WEAK",
+            "confidence": 1.0,
+            "role": null,
+            "lexical_match": null,
+            "kind": null,
+            "source_mentions": [
+              "access controls"
+            ],
+            "amr_ids": [
+              "ctx_001_m35"
+            ],
+            "supporting_fragment_ids": []
+          }
+        ]
+      },
+      "mentions": [
+        {
+          "text": "access controls",
+          "span": [
+            1107,
+            1122
+          ]
+        }
+      ]
+    },
+    {
+      "id": "e37",
+      "name": "healthcare",
+      "type": "other",
+      "aliases": [],
+      "features": {
+        "hypernyms": [
+          {
+            "label": "data concerning health",
+            "strength": "STRONG",
+            "confidence": 1.1,
+            "role": null,
+            "lexical_match": null,
+            "kind": null,
+            "source_mentions": [
+              "healthcare"
+            ],
+            "amr_ids": [
+              "ctx_001_m36"
+            ],
+            "supporting_fragment_ids": []
+          }
+        ]
+      },
+      "mentions": [
+        {
+          "text": "healthcare",
+          "span": [
+            1132,
+            1142
+          ]
+        }
+      ]
+    },
+    {
+      "id": "e38",
+      "name": "EU",
+      "type": "jurisdiction",
+      "aliases": [],
+      "features": {
+        "hypernyms": [
+          {
+            "label": "region",
+            "strength": "WEAK",
+            "confidence": 1.0,
+            "role": null,
+            "lexical_match": null,
+            "kind": null,
+            "source_mentions": [
+              "EU"
+            ],
+            "amr_ids": [
+              "ctx_001_m37"
+            ],
+            "supporting_fragment_ids": []
+          }
+        ]
+      },
+      "mentions": [
+        {
+          "text": "EU",
+          "span": [
+            1162,
+            1164
+          ]
+        }
+      ]
+    },
+    {
+      "id": "e39",
+      "name": "FR",
+      "type": "jurisdiction",
+      "aliases": [],
+      "features": {
+        "hypernyms": [
+          {
+            "label": "region",
+            "strength": "WEAK",
+            "confidence": 1.0,
+            "role": null,
+            "lexical_match": null,
+            "kind": null,
+            "source_mentions": [
+              "FR"
+            ],
+            "amr_ids": [
+              "ctx_001_m38"
+            ],
+            "supporting_fragment_ids": []
+          }
+        ]
+      },
+      "mentions": [
+        {
+          "text": "FR",
+          "span": [
+            1166,
+            1168
+          ]
+        }
+      ]
+    }
+  ],
+  "relations": [
+    {
+      "subj": "e2",
+      "pred": "located_in",
+      "obj": "e3",
+      "evidence": {
+        "quote": "private hospital group in Lyon",
+        "span": [
+          33,
+          63
+        ]
+      },
+      "confidence": 0.9
+    },
+    {
+      "subj": "e4",
+      "pred": "contains",
+      "obj": "e5",
+      "evidence": {
+        "quote": "EHR a weekly file containing: patient discharge date",
+        "span": [
+          80,
+          122
+        ]
+      },
+      "confidence": 0.8
+    },
+    {
+      "subj": "e4",
+      "pred": "contains",
+      "obj": "e6",
+      "evidence": {
+        "quote": "EHR a weekly file containing: ICD-10 diagnosis codes",
+        "span": [
+          80,
+          146
+        ]
+      },
+      "confidence": 0.8
+    },
+    {
+      "subj": "e4",
+      "pred": "contains",
+      "obj": "e7",
+      "evidence": {
+        "quote": "EHR a weekly file containing: lab result45 flags",
+        "span": [
+          80,
+          166
+        ]
+      },
+      "confidence": 0.8
+    },
+    {
+      "subj": "e4",
+      "pred": "contains",
+      "obj": "e8",
+      "evidence": {
+        "quote": "EHR a weekly file containing: year of birth",
+        "span": [
+          80,
+          199
+        ]
+      },
+      "confidence": 0.8
+    },
+    {
+      "subj": "e4",
+      "pred": "contains",
+      "obj": "e9",
+      "evidence": {
+        "quote": "EHR a weekly file containing: sex",
+        "span": [
+          80,
+          204
+        ]
+      },
+      "confidence": 0.8
+    },
+    {
+      "subj": "e4",
+      "pred": "contains",
+      "obj": "e10",
+      "evidence": {
+        "quote": "EHR a weekly file containing: 5-digit postcode",
+        "span": [
+          80,
+          226
+        ]
+      },
+      "confidence": 0.8
+    },
+    {
+      "subj": "e4",
+      "pred": "contains",
+      "obj": "e11",
+      "evidence": {
+        "quote": "EHR a weekly file containing: stable hashed patient ID",
+        "span": [
+          80,
+          258
+        ]
+      },
+      "confidence": 0.8
+    },
+    {
+      "subj": "e12",
+      "pred": "contains",
+      "obj": "e11",
+      "evidence": {
+        "quote": "the salt is stored in our data warehouse",
+        "span": [
+          263,
+          292
+        ]
+      },
+      "confidence": 0.7
+    },
+    {
+      "subj": "e13",
+      "pred": "uses",
+      "obj": "e4",
+      "evidence": {
+        "quote": "The file will be ingested into our customer data platform",
+        "span": [
+          293,
+          347
+        ]
+      },
+      "confidence": 0.7
+    },
+    {
+      "subj": "e13",
+      "pred": "purpose",
+      "obj": "e14",
+      "evidence": {
+        "quote": "to build lookalike audiences",
+        "span": [
+          348,
+          377
+        ]
+      },
+      "confidence": 0.7
+    },
+    {
+      "subj": "e13",
+      "pred": "purpose",
+      "obj": "e15",
+      "evidence": {
+        "quote": "to retarget discharged patients",
+        "span": [
+          348,
+          410
+        ]
+      },
+      "confidence": 0.7
+    },
+    {
+      "subj": "e13",
+      "pred": "shares_with",
+      "obj": "e16",
+      "evidence": {
+        "quote": "retarget discharged patients on Facebook/Instagram",
+        "span": [
+          382,
+          432
+        ]
+      },
+      "confidence": 0.7
+    },
+    {
+      "subj": "e13",
+      "pred": "uses",
+      "obj": "e17",
+      "evidence": {
+        "quote": "via server-to-server integrations",
+        "span": [
+          433,
+          466
+        ]
+      },
+      "confidence": 0.7
+    },
+    {
+      "subj": "e18",
+      "pred": "contains",
+      "obj": "e19",
+      "evidence": {
+        "quote": "Our admission form currently has a single bundled consent",
+        "span": [
+          472,
+          518
+        ]
+      },
+      "confidence": 0.7
+    },
+    {
+      "subj": "e19",
+      "pred": "purpose",
+      "obj": "e20",
+      "evidence": {
+        "quote": "'we may use your data for service improvement and offers'",
+        "span": [
+          519,
+          560
+        ]
+      },
+      "confidence": 0.7
+    },
+    {
+      "subj": "e2",
+      "pred": "relies_on",
+      "obj": "e21",
+      "evidence": {
+        "quote": "Marketing proposes to rely on legitimate interests",
+        "span": [
+          620,
+          651
+        ]
+      },
+      "confidence": 0.7
+    },
+    {
+      "subj": "e2",
+      "pred": "transfers_to",
+      "obj": "e22",
+      "evidence": {
+        "quote": "continue sending events to US-based ad vendors",
+        "span": [
+          652,
+          696
+        ]
+      },
+      "confidence": 0.7
+    },
+    {
+      "subj": "e2",
+      "pred": "uses",
+      "obj": "e23",
+      "evidence": {
+        "quote": "We have not completed an updated SCC/TIA package",
+        "span": [
+          697,
+          748
+        ]
+      },
+      "confidence": 0.7
+    },
+    {
+      "subj": "e2",
+      "pred": "acts_as",
+      "obj": "e24",
+      "evidence": {
+        "quote": "Acting as a controller",
+        "span": [
+          770,
+          789
+        ]
+      },
+      "confidence": 0.7
+    },
+    {
+      "subj": "e2",
+      "pred": "purpose",
+      "obj": "e25",
+      "evidence": {
+        "quote": "Stated purposes include marketing",
+        "span": [
+          790,
+          817
+        ]
+      },
+      "confidence": 0.7
+    },
+    {
+      "subj": "e2",
+      "pred": "purpose",
+      "obj": "e26",
+      "evidence": {
+        "quote": "Stated purposes include retargeting",
+        "span": [
+          790,
+          833
+        ]
+      },
+      "confidence": 0.7
+    },
+    {
+      "subj": "e2",
+      "pred": "uses",
+      "obj": "e27",
+      "evidence": {
+        "quote": "Data involved includes health-related data",
+        "span": [
+          834,
+          869
+        ]
+      },
+      "confidence": 0.7
+    },
+    {
+      "subj": "e2",
+      "pred": "uses",
+      "obj": "e28",
+      "evidence": {
+        "quote": "Data involved includes identifiers",
+        "span": [
+          834,
+          882
+        ]
+      },
+      "confidence": 0.7
+    },
+    {
+      "subj": "e2",
+      "pred": "uses",
+      "obj": "e29",
+      "evidence": {
+        "quote": "Data involved includes contact details",
+        "span": [
+          834,
+          902
+        ]
+      },
+      "confidence": 0.7
+    },
+    {
+      "subj": "e2",
+      "pred": "targets",
+      "obj": "e30",
+      "evidence": {
+        "quote": "Data subjects: patients",
+        "span": [
+          922,
+          941
+        ]
+      },
+      "confidence": 0.7
+    },
+    {
+      "subj": "e2",
+      "pred": "shares_with",
+      "obj": "e31",
+      "evidence": {
+        "quote": "Recipients or service providers include advertising vendor",
+        "span": [
+          942,
+          982
+        ]
+      },
+      "confidence": 0.7
+    },
+    {
+      "subj": "e2",
+      "pred": "shares_with",
+      "obj": "e32",
+      "evidence": {
+        "quote": "Recipients or service providers include social media platform",
+        "span": [
+          942,
+          1008
+        ]
+      },
+      "confidence": 0.7
+    },
+    {
+      "subj": "e2",
+      "pred": "transfers_to",
+      "obj": "e33",
+      "evidence": {
+        "quote": "Cross-border access/transfer noted: US",
+        "span": [
+          1018,
+          1040
+        ]
+      },
+      "confidence": 0.7
+    },
+    {
+      "subj": "e2",
+      "pred": "processed_under",
+      "obj": "e38",
+      "evidence": {
+        "quote": "Jurisdiction context: EU",
+        "span": [
+          1152,
+          1164
+        ]
+      },
+      "confidence": 0.7
+    },
+    {
+      "subj": "e2",
+      "pred": "processed_under",
+      "obj": "e39",
+      "evidence": {
+        "quote": "Jurisdiction context: FR",
+        "span": [
+          1152,
+          1168
+        ]
+      },
+      "confidence": 0.7
+    }
+  ]
+}

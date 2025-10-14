@@ -47,26 +47,38 @@ def sha256(text: str) -> str:
 class OpenAIClient:
     def __init__(self, model: Optional[str] = None, max_retries: int = 5):
         self.client = OpenAI()
-        self.chat_model = model or os.getenv("OPENAI_MODEL", "gpt-5")
+        self.chat_model = model or os.getenv("OPENAI_MODEL", "gpt-4o")
         self.max_retries = max_retries
 
     def chat_json(self, system: str, user: str, temperature: float = 0.0) -> Dict[str, Any]:
         backoff = 1.0
         last_err: Optional[Exception] = None
         for _ in range(self.max_retries):
-            try:
-                resp = self.client.chat.completions.create(
-                    model=self.chat_model,
-                    messages=[{"role": "system", "content": system},
-                              {"role": "user", "content": user}],
-                    # temperature=temperature,
-                    # response_format={"type": "json_object"},
-                )
-                return json.loads(resp.choices[0].message.content)
-            except Exception as e:
-                last_err = e
-                time.sleep(backoff); backoff = min(backoff*2, 16.0)
-        raise RuntimeError(f"OpenAI chat_json 실패: {last_err}")
+            resp = self.client.responses.create(
+            model=self.chat_model,
+            # Chat-like 입력은 input에 role/message 배열로 전달
+            input=[
+                {"role": "system", "content": system},
+                {"role": "user", "content": user},
+            ],
+            temperature=temperature,
+            text={"format": {"type": "json_object"}},
+        )
+            text = getattr(resp, "output_text", None)
+            if not text and getattr(resp, "output", None):
+                parts = []
+                for item in resp.output:
+                    for c in getattr(item, "content", []) or []:
+                        t = getattr(c, "text", None)
+                        if t:
+                            parts.append(t)
+                text = "".join(parts) if parts else None
+
+            if not text:
+                # 감싸지 않고 그대로 에러 발생시켜 traceback을 보이게 함
+                raise ValueError("Responses API: empty output_text")
+
+            return json.loads(text)
 
 
 # ===== 데이터 구조 =====

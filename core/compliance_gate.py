@@ -31,7 +31,7 @@ TRIAGE_BATCH = 24
 CHECKLIST_BATCH = 16
 TAU_SEM = 0.55
 
-RAW_DUMP = True                              # ← 필요 없으면 False
+RAW_DUMP = False
 RAW_DIR  = Path("monitor/raw_llm"); RAW_DIR.mkdir(parents=True, exist_ok=True)
 
 def _raw_dump(tag: str, anchor_id: str, sys_msg: str, payload: dict, resp):
@@ -42,7 +42,7 @@ def _raw_dump(tag: str, anchor_id: str, sys_msg: str, payload: dict, resp):
         with open(fn, "w", encoding="utf-8") as f:
             f.write("=== SYS ===\n"); f.write(sys_msg); f.write("\n\n")
             f.write("=== PAYLOAD (truncated) ===\n")
-            s_payload = json.dumps(payload, ensure_ascii=False)[:12000]  # 과도 방지
+            s_payload = json.dumps(payload, ensure_ascii=False)[:12000]
             f.write(s_payload); f.write("\n\n")
             f.write("=== RESPONSE RAW ===\n")
             if isinstance(resp, (dict, list)):
@@ -177,40 +177,40 @@ class _RunReport:
             print("[meta]", {k: v for k, v in self.meta.items()})
         print(f"[anchors] {len(self.anc)} anchors")
         # 앵커별 요약
-        for anc_id, rec in self.anc.items():
-            a = rec.get("anchor", {})
-            head = f"{anc_id} | pred={a.get('predicate','')} actor={a.get('actor_type','')} object={a.get('object_type','')}"
-            print(f"\n-- Anchor: {head}")
-            # 1) 프리셀렉트
-            pre = rec.get("preselect", [])[:ms]
-            if pre:
-                print(f"  [preselect x{len(rec.get('preselect',[]))}] top{len(pre)}:")
-                for row in pre:
-                    print(f"    - {row['cu_id']}  s={row['score']:.3f}  subj='{self._short(row.get('subject',''))}'")
-            else:
-                print("  [preselect] (none)")
-            # 2) 리랭크
-            rr = rec.get("rerank", [])[:ms]
-            if rr:
-                print(f"  [rerank    x{len(rec.get('rerank',[]))}] top{len(rr)}:")
-                for row in rr:
-                    print(f"    - {row['cu_id']}  s={row['score']:.3f}  subj='{self._short(row.get('subject',''))}'")
-            else:
-                print("  [rerank] (none)")
-            # 3) 컴플라이언스 판단(listwise)
-            lw = rec.get("listwise", [])[:ms]
-            if lw:
-                print(f"  [listwise  x{len(rec.get('listwise',[]))}] top{len(lw)}:")
-                for r in lw:
-                    print(f"    - {r['cu_id']}  verdict={r['verdict']} score={r.get('score',0):.2f} why='{self._short(r.get('why',''))}'")
-            else:
-                print("  [listwise] (none)")
-            # 4) 참조 재검사
-            rf = rec.get("refs", [])[:ms]
-            if rf:
-                print(f"  [refs      x{len(rec.get('refs',[]))}] top{len(rf)}:")
-                for r in rf:
-                    print(f"    - base={r['base_cu_id']}  overridden={r['overridden']}  final={r['final_verdict']} why='{self._short(r.get('why',''))}'")
+        # for anc_id, rec in self.anc.items():
+        #     a = rec.get("anchor", {})
+        #     head = f"{anc_id} | pred={a.get('predicate','')} actor={a.get('actor_type','')} object={a.get('object_type','')}"
+        #     print(f"\n-- Anchor: {head}")
+        #     # 1) 프리셀렉트
+        #     pre = rec.get("preselect", [])[:ms]
+        #     if pre:
+        #         print(f"  [preselect x{len(rec.get('preselect',[]))}] top{len(pre)}:")
+        #         for row in pre:
+        #             print(f"    - {row['cu_id']}  s={row['score']:.3f}  subj='{self._short(row.get('subject',''))}'")
+        #     else:
+        #         print("  [preselect] (none)")
+        #     # 2) 리랭크
+        #     rr = rec.get("rerank", [])[:ms]
+        #     if rr:
+        #         print(f"  [rerank    x{len(rec.get('rerank',[]))}] top{len(rr)}:")
+        #         for row in rr:
+        #             print(f"    - {row['cu_id']}  s={row['score']:.3f}  subj='{self._short(row.get('subject',''))}'")
+        #     else:
+        #         print("  [rerank] (none)")
+        #     # 3) 컴플라이언스 판단(listwise)
+        #     lw = rec.get("listwise", [])[:ms]
+        #     if lw:
+        #         print(f"  [listwise  x{len(rec.get('listwise',[]))}] top{len(lw)}:")
+        #         for r in lw:
+        #             print(f"    - {r['cu_id']}  verdict={r['verdict']} score={r.get('score',0):.2f} why='{self._short(r.get('why',''))}'")
+        #     else:
+        #         print("  [listwise] (none)")
+        #     # 4) 참조 재검사
+        #     rf = rec.get("refs", [])[:ms]
+        #     if rf:
+        #         print(f"  [refs      x{len(rec.get('refs',[]))}] top{len(rf)}:")
+        #         for r in rf:
+        #             print(f"    - base={r['base_cu_id']}  overridden={r['overridden']}  final={r['final_verdict']} why='{self._short(r.get('why',''))}'")
         # 최종 결과
         print("\n== Final Decisions (by article) ==")
         if not self.final:
@@ -253,10 +253,10 @@ class LegalCrossReranker:
             # 메모리 여유 있으면 반정밀도 권장(지원 모델 한정)
             try: 
                 self.model.model.half()
-                print("[diag] reranker: fp16 enabled")
+                # print("[diag] reranker: fp16 enabled")
             except Exception:
                 pass
-        print(f"[diag] reranker.device={self.device}, batch_size={self.batch_size}")
+        # print(f"[diag] reranker.device={self.device}, batch_size={self.batch_size}")
 
     @staticmethod
     def _anchor_text(anc, ctx) -> str:
@@ -331,11 +331,11 @@ class _Diag:
         k_pre_avg = (cls.v.get("K_pre_sum", 0.0) / A) if A else 0.0
         k_fin_avg = (cls.v.get("K_final_sum", 0.0) / A) if A else 0.0
         p_v = (L2 / A) if A else 0.0
-        print(f"[diag] anchors={A}  preselect_K_avg={k_pre_avg:.2f}  final_K_avg={k_fin_avg:.2f}  p_v(violation_rate)={p_v:.2f}")
-        print(f"[diag] llm_calls: listwise={L1}  refs={L2}  meta={(meta or 0)}  total={total_llm}")
+        # print(f"[diag] anchors={A}  preselect_K_avg={k_pre_avg:.2f}  final_K_avg={k_fin_avg:.2f}  p_v(violation_rate)={p_v:.2f}")
+        # print(f"[diag] llm_calls: listwise={L1}  refs={L2}  meta={(meta or 0)}  total={total_llm}")
         for k, sec in sorted(cls.t.items()):
             print(f"[diag] time.{k}={sec:.3f}s")
-        print(f"[diag] run_time.total={run:.3f}s")
+        # print(f"[diag] run_time.total={run:.3f}s")
 def diag_time_call(key, fn, *a, **kw):  # one-liner용 래퍼
     return _Diag.time_call(key, fn, *a, **kw)
 # === /DIAG LIGHT ===
@@ -351,19 +351,17 @@ class DiskVecCache:
 
     def load_cu_subj(self, policy_name: str):
         npy, meta_j, ids_j = self.cu_subj_paths(policy_name)
-        try:
-            # 최소 크기/동반 파일 확인
-            if npy.exists() and npy.stat().st_size > 64 and meta_j.exists() and ids_j.exists():
-                import numpy as np, json
-                vecs = np.load(npy, mmap_mode="r")      # 손상 시 EOFError/ValueError
-                meta  = json.loads(meta_j.read_text("utf-8"))
-                cu_ids= json.loads(ids_j.read_text("utf-8"))
-                # 간단한 무결성 점검
-                if len(cu_ids) != getattr(vecs, "shape", (0,))[0]:
-                    raise ValueError(f"ids({len(cu_ids)}) != vecs({getattr(vecs,'shape',('?','?'))})")
-                return cu_ids, vecs, meta
-        except Exception as e:
-            print(f"[diag] cache corrupt for {npy}: {e} → rebuilding…")
+        # 최소 크기/동반 파일 확인
+        if npy.exists() and npy.stat().st_size > 64 and meta_j.exists() and ids_j.exists():
+            vecs = np.load(npy, mmap_mode="r")      # 손상 시 EOFError/ValueError
+            meta  = json.loads(meta_j.read_text("utf-8"))
+            cu_ids= json.loads(ids_j.read_text("utf-8"))
+            # 간단한 무결성 점검
+            if len(cu_ids) != getattr(vecs, "shape", (0,))[0]:
+                raise ValueError(f"ids({len(cu_ids)}) != vecs({getattr(vecs,'shape',('?','?'))})")
+            return cu_ids, vecs, meta
+        # except Exception as e:
+            # print(f"[diag] cache corrupt for {npy}: {e} → rebuilding…")
         # 손상/불일치면 깨끗이 지우고 재빌드 유도
         for p in (npy, meta_j, ids_j):
             try: p.unlink()
@@ -838,7 +836,7 @@ class CandidateRetriever:
 
                 # debug
                 head = keep[:5]
-                print(f"[preselect][anc={anc.id}] ent='{self._short(ent_terms,80)}'  K={len(keep)}  head={[ (cid, round(sc,3)) for cid, sc in head ]}")
+                # print(f"[preselect][anc={anc.id}] ent='{self._short(ent_terms,80)}'  K={len(keep)}  head={[ (cid, round(sc,3)) for cid, sc in head ]}")
                 # for cid, sc in head:
                 #     a = (policy.get_cu(cid).get('attrs') or {})
                 #     subj = a.get("subject") or a.get("data_category") or a.get("title")
@@ -1277,7 +1275,7 @@ class OpenAILLM(LLMBackend):
     - Supports Responses API first; falls back to Chat Completions; then legacy openai.ChatCompletion.
     - When debug=True, prints every system prompt, user JSON payload, raw model output, parsed JSON, usage, and latency.
     """
-    def __init__(self, model: str = "gpt-4.1", temperature: float = 0.0, max_output_tokens: int = 16384,
+    def __init__(self, model: str = "gpt-4o", temperature: float = 0.0, max_output_tokens: int = 16384,
                  debug: bool = False, log_file: Optional[str] = None, truncate: int = 1500, redact: bool = False,
                  monitor: Optional[ComplianceMonitor] = None):
         try:
@@ -1344,7 +1342,7 @@ class OpenAILLM(LLMBackend):
             max_output_tokens=self.max_output_tokens,
         )
         raw_text = resp.output_text
-        print(f"[diag] json_mode=on model={self.model} len={len(raw_text)}")
+        # print(f"[diag] json_mode=on model={self.model} len={len(raw_text)}")
         parsed = _force_json(raw_text)
 
         # --- 모니터 기록
@@ -1536,7 +1534,7 @@ class ComplianceGate:
         self.cand_retriever = getattr(self, "cand_retriever",
             CandidateRetriever(self.sim, top_k=self.preselect_k,
                                embedder=self.embedder, clusterer=self.clusterer))
-        self.llm_backend = self.llm_backend or OpenAILLM(model="gpt-4.1", temperature=0.0,
+        self.llm_backend = self.llm_backend or OpenAILLM(model="gpt-4o", temperature=0.0,
                                                          monitor=getattr(self,"monitor",None))
         # [NEW] 리랭커 주입
         self.reranker = LegalCrossReranker(self.reranker_model)
@@ -1579,7 +1577,7 @@ class ComplianceGate:
             self.anchor_extractor = AnchorExtractor(self.clusterer)
         anchors = self.anchor_extractor(ctx)
         _Diag.inc("anchors", len(anchors))
-        print(f"[diag] anchors this run = {len(anchors)}")
+        # print(f"[diag] anchors this run = {len(anchors)}")
 
         # 2) 메타 CU 1회 검증(있을 때만)
         if self.enable_meta_gate:
@@ -1615,9 +1613,9 @@ class ComplianceGate:
             norms = np.linalg.norm(vecs_mmap, axis=1, keepdims=True) + 1e-9
             V = (vecs_mmap / norms).astype(np.float32, copy=False)
             self._cu_subj_vec = {cid: V[i] for i, cid in enumerate(cu_ids)}
-            print(f"[diag] cu_subj cache HIT: {len(cu_ids)} vecs loaded")
+            # print(f"[diag] cu_subj cache HIT: {len(cu_ids)} vecs loaded")
         else:
-            print(f"[cache] MISS file=cache/{policy_name}_cache.npy → rebuilding…")
+            # print(f"[cache] MISS file=cache/{policy_name}_cache.npy → rebuilding…")
             cu_ids, subj_texts = [], []
             for cid, node in pol.iter_cus("actor_cu"):
                 a = (node.get("attrs") or {})
@@ -1642,12 +1640,12 @@ class ComplianceGate:
             # 런타임 dict (float32 권장)
             V32 = V.astype(np.float32)
             self._cu_subj_vec = {cid: V32[i] for i, cid in enumerate(cu_ids)}
-            print(f"[diag] cu_subj cache BUILD: {len(cu_ids)} vecs saved")
-            print(f"[cache] BUILD file=cache/{policy_name}_cache.npy  count={len(cu_ids)}  dim={V.shape[1]}")
+            # print(f"[diag] cu_subj cache BUILD: {len(cu_ids)} vecs saved")
+            # print(f"[cache] BUILD file=cache/{policy_name}_cache.npy  count={len(cu_ids)}  dim={V.shape[1]}")
 
         # 리트리버에 주입
         self.cand_retriever.cu_subj_vec = self._cu_subj_vec
-        print(f"[diag] subject-only preselect: {len(self._cu_subj_vec)} CU vecs ready")
+        # print(f"[diag] subject-only preselect: {len(self._cu_subj_vec)} CU vecs ready")
 
         # 3) 후보 랭킹
         cand_map = diag_time_call("preselect", self.cand_retriever, anchors, ctx, pol)
@@ -1684,7 +1682,7 @@ class ComplianceGate:
             )
             # [DEBUG] 리랭크 결과 상위 N 찍기
             head = reranked[anc.id][: min(5, len(reranked[anc.id]))]
-            print(f"[rerank][anc={anc.id}] finalK={len(reranked[anc.id])} head={[ (cid, round(sc,3)) for cid, sc in head ]}")
+            # print(f"[rerank][anc={anc.id}] finalK={len(reranked[anc.id])} head={[ (cid, round(sc,3)) for cid, sc in head ]}")
 
         cand_map = reranked
         _Diag.add("K_final_sum", sum(len(v) for v in cand_map.values()))
@@ -1759,7 +1757,7 @@ class ComplianceGate:
                     items.append({"cu_id": cid, "plan": _plan_to_dict(plan)})
 
             # 앵커 단위 요약
-            print(f"[plan][summary][anc={anc.id}] ok={n_ok} none={n_none} exc={n_exc}  feed_items={len(items)}")
+            # print(f"[plan][summary][anc={anc.id}] ok={n_ok} none={n_none} exc={n_exc}  feed_items={len(items)}")
 
             # 대강의 입력 길이(문자수)로 페이로드 크기 감 잡기
             approx_chars = sum(len(json.dumps(it["plan"], ensure_ascii=False)) for it in items)
@@ -1976,7 +1974,7 @@ def _cli():
     ap.add_argument("--context","-c", default="context_graphs.json")
     ap.add_argument("--topk", type=int, default=8)
     ap.add_argument("--pred_th", type=float, default=0.5)
-    ap.add_argument("--model", type=str, default="gpt-4.1")
+    ap.add_argument("--model", type=str, default="gpt-4o")
     ap.add_argument("--temperature", type=float, default=0.0)
     ap.add_argument("--model_path", type=str, default=None, help="로컬 LLM 경로(디렉터리=transformers, .gguf=llama.cpp)")
     args=ap.parse_args()
